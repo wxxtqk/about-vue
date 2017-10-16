@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './bus.js' // 注册到全局
+import store from './store/bus.js' // 注册到全局
 Vue.config.productionTip = false
 
 
