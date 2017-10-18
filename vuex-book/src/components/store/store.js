@@ -12,12 +12,19 @@ const mutations = {
       favorite: false,
       header: '这是标题'
     }
+    console.log('+++')
     state.notes.push(newNote) // 添加笔记
     state.activeNote = newNote
   }
 }
+const actions = {
+  addNote ({commit}) {
+    commit('ADD_NOTE')
+  }
+}
 const store = new Vuex.Store({
   state,
-  mutations
+  mutations,
+  actions
 })
 export default store

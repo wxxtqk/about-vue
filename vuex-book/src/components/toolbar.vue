@@ -11,7 +11,7 @@ export default {
   name: 'hello',
   methods: {
     addNote () {
-      console.log('添加')
+      this.$store.dispatch('addNote')
     },
     tooglefavorite () {
       console.log('添加')
