@@ -10,14 +10,17 @@
 export default {
   name: 'hello',
   methods: {
+    // 添加
     addNote () {
       this.$store.dispatch('addNote')
     },
+    // 标记为喜欢
     tooglefavorite () {
-      console.log('添加')
+      this.$store.dispatch('addFavorite')
     },
+    // 删除笔记
     deleteNote () {
-      console.log('添加')
+      this.$store.dispatch('delNote')
     }
   }
 }

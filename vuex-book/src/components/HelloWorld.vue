@@ -72,6 +72,5 @@ body {
   min-width: 600px;
   height: 100%;
   margin-left: 380px;
-  float: left;
 }
 </style>
