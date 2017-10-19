@@ -223,3 +223,93 @@ const getters = {
 ```
 
 切换后会触发store中的notesType的值,从而过滤掉favorite为false或者true，最好的效果
+
+![](1.png)
+
+
+
+![](2.png)
+
+详细的sotre
+
+```javascript
+import Vuex from 'vuex'
+import Vue from 'vue'
+Vue.use(Vuex)
+const state = {
+  notes: [],
+  activeNote: [],
+  notesType: 'all'
+}
+const mutations = {
+  // 添加笔记
+  ADD_NOTE (state) {
+    const newNote = {
+      text: '这是内容',
+      favorite: false,
+      header: '这是标题'
+    }
+    state.notes.push(newNote) // 添加笔记
+    state.activeNote = newNote
+  },
+  // 设置活动笔记
+  SET_ACTIVE (state, note) {
+    state.activeNote = note
+  },
+  // 修改笔记内容
+  EDIT_NOTE (state, text) {
+    state.activeNote.text = text
+  },
+  // 标记为喜欢
+  ADD_FAVORITE (state) {
+    for (let val of state.notes) {
+      if (val === state.activeNote) {
+      	val.favorite = !val.favorite
+      }
+    }
+  },
+  // 删除笔记
+  DEL_NOTE (state) {
+  	if (state.notes.length > 0) {
+  		let index = state.notes.indexOf(state.activeNote) // 获取活动笔记的位置
+  		state.notes.splice(index, 1) // 删除
+  		// 如果删除后笔记数组还有值就默认设置第一个为活动笔记
+  		if (state.notes.length > 0) state.activeNote = state.notes[0]
+  	}
+  },
+  // 记录活动在所有笔记还是在喜欢
+  ALL_FAVOR (state, type) {
+    state.notesType = type
+  }
+}
+const getters = {
+	// 过滤所有笔记和喜欢的笔记
+  getNotes (state) {
+  	if (state.notesType === 'all') {
+  		return state.notes
+  	} else {
+	  	return state.notes.filter(data => data.favorite)
+  	}
+  }
+}
+const actions = {
+  addNote ({commit}) {
+    commit('ADD_NOTE')
+  },
+  addFavorite ({commit}) {
+    commit('ADD_FAVORITE')
+  },
+  delNote ({commit}) {
+  	commit('DEL_NOTE')
+  }
+}
+const store = new Vuex.Store({
+  state,
+  getters,
+  mutations,
+  actions
+})
+export default store
+
+```
+
