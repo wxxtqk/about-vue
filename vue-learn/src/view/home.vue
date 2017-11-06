@@ -30,5 +30,3 @@ export default {
     .el-aside
         background bg-color
 </style>
-
-

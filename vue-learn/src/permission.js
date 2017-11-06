@@ -19,7 +19,12 @@ router.beforeEach((to, from, next) => {
               next({path: '/login'})
             })
           } else {
-            next()
+            store.dispatch('GenerateRoutes', store.getters.roles).then(() => {
+              console.log('路由表', store.getters.addRouters)
+              router.addRoutes(store.getters.addRouters) // 动态添加可访问的路由
+              next({...to}) // hack方法,确保addRutes已完成
+              // next() // 直接使用该方法刷新页面后不会保留在历史页，而页面是空白的
+            })
           }
         }).catch(() => {
           Message.error('拉取用户信息失败!请重新登录')

@@ -6,15 +6,7 @@
 
 <script>
 export default {
-  name: 'app',
-  methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    }
-  }
+  name: 'app'
 }
 </script>
 
