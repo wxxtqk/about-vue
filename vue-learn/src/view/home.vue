@@ -1,6 +1,8 @@
 <template>
     <el-container style="height:100%">
-        <el-header class="el-header">Header</el-header>
+        <el-header class="el-header">
+            <navbar></navbar>
+        </el-header>
         <el-container>
             <el-aside width="200px" class="el-aside">
                 <sidebar></sidebar>
@@ -15,10 +17,12 @@
 <script>
 import sidebar from './layout/sidebar'
 import appMain from './layout/app-mian'
+import navbar from './navbar/index'
 export default {
   components: {
     sidebar,
-    appMain
+    appMain,
+    navbar
   }
 }
 </script>

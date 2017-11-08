@@ -1,6 +1,6 @@
 import { login, userInfo } from '@/api/login' // 登录
 import { getToken, setToken, removeToken } from '@/utils/auth' // cookie的设置
-const SUCCES_STATE = 200
+const SUCCES_STATE = '200'
 const user = {
   state: {
     token: getToken(),
