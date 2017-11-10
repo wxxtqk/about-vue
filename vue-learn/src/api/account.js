@@ -9,6 +9,7 @@ export function accountList (page, rows) {
   data = qs.stringify(data)
   return fetch({
     url: 'http://192.168.199.206:8089/ods-backstage-web/user/list',
+    // url: 'http://192.168.199.109:8083/user/list',
     method: 'post',
     data
   })
@@ -26,5 +27,61 @@ export function fetchSystem () {
   return fetch({
     url: 'http://192.168.199.206:8089/ods_manager_web/systemParameter/listUserInit',
     method: 'post'
+  })
+}
+// 新增用户
+export function addAccount (data) {
+  data = qs.stringify(data)
+  return fetch({
+    // url: 'http://192.168.199.206:8089/ods-backstage-web/user/add',
+    url: 'http://192.168.199.109:8083/user/add',
+    method: 'post',
+    data
+  })
+}
+// 查询用户好友列表
+export function fetchFriends (data) {
+  data = qs.stringify(data)
+  return fetch({
+    url: 'http://192.168.199.206:8089/ods-backstage-web/frend/select/all',
+    // url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/getfriends',
+    method: 'post',
+    data
+  })
+}
+// 新增好友
+export function appendFriend (info) {
+  info = qs.stringify(info)
+  return fetch({
+    url: 'http://192.168.199.206:8089/ods-backstage-web/frend/add',
+    method: 'post',
+    data: info
+  })
+}
+// 移除好友
+export function deleteFriend (info) {
+  info = qs.stringify(info)
+  return fetch({
+    url: 'http://192.168.199.206:8089/ods-backstage-web/frend/delet',
+    method: 'post',
+    data: info
+  })
+}
+// 获取用户信息以便修改
+export function fetchUserinfo (info) {
+  info = qs.stringify(info)
+  return fetch({
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/fetch/userinfo',
+    method: 'post',
+    data: info
+  })
+}
+// 修改用户信息
+export function modifyInfo (info) {
+  info = qs.stringify(info)
+  return fetch({
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/fetch/userinfo',
+    method: 'post',
+    data: info
   })
 }

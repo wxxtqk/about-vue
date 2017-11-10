@@ -26,6 +26,7 @@ export default {
     },
     addAccount () {
       this.header.dialogVisible = true
+      this.header.type = true
     }
   }
 }

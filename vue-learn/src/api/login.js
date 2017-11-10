@@ -1,4 +1,4 @@
-import fetch from '@/utils/fetch'
+// import fetch from '@/utils/fetch'
 import fetchNoToken from '@/utils/fetch-no-token'
 import qs from 'qs'
 // 验证用户,并获取token
@@ -8,7 +8,7 @@ export function login (username, password) {
     userPassword: password
   }
   data = qs.stringify(data)
-  return fetch({
+  return fetchNoToken({
     url: 'http://192.168.199.206:8089/ods-sso-web/user/login',
     method: 'post',
     data
