@@ -17,8 +17,8 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="seeAccount(scope.$index, scope.row)">查看用户好友</el-dropdown-item>
                 <el-dropdown-item @click.native="modifyInfo(scope.row)">修改信息</el-dropdown-item>
-                <el-dropdown-item >重置密码</el-dropdown-item>
-                <el-dropdown-item >删除</el-dropdown-item>
+                <el-dropdown-item @click.native="resetPwd(scope.row)">重置密码</el-dropdown-item>
+                <el-dropdown-item  @click.native="deleteFrind(scope.row)">删除</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </template>
@@ -28,6 +28,7 @@
     <el-footer>
     </el-footer>
     <add-account :account="account" @updateList="updateList" :userInfo="userInfo"></add-account>
+    <!-- 好友管理 -->
     <el-dialog width="40%" title="我的好友" :before-close="handleClose"  :visible.sync="dialogFriend"  class="friend-lists">
       <el-row>
         <el-col :span="12">
@@ -48,11 +49,26 @@
           </el-table-column>
         </el-table>
     </el-dialog>
+    <!-- 修改密码 -->
+    <el-dialog title="修改密码" :before-close="ClosePwd"  :visible.sync="dialogPwd" >
+      <el-form :rules="rules" :model="reset" ref="reset">
+        <el-form-item label="新密码" label-width="120px" prop="pass">
+          <el-input v-model="reset.pass" auto-complete="on" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认新密码" label-width="120px" prop="checkpass">
+          <el-input v-model="reset.checkpass" auto-complete="on" type="password"  @click.enter.native="modifrPwd"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="dialogPwd = false">取 消</el-button>
+          <el-button type="primary" @click.native="modifrPwd" :loading="loading">确 定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
-import { accountList, fetchFriends, appendFriend, deleteFriend, fetchUserinfo } from '@/api/account'
+import { accountList, fetchFriends, appendFriend, deleteFriend, fetchUserinfo, modifyPass, deleteAccount } from '@/api/account'
 import mainHeader from '@/components/main-header'
 import addAccount from './add-account'
 const SUCCES = '200'
@@ -62,16 +78,49 @@ export default {
     addAccount
   },
   data () {
+    const validatepass = (rule, value, callback) => {
+      console.log(value)
+      if (!value) {
+        callback(new Error('请输入密码'))
+      } else if (value.length < 6) {
+        callback(new Error('密码必须大于6位'))
+      } else {
+        callback()
+      }
+    }
+    const validateCheckPass = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.reset.checkpass) {
+        callback(new Error('两次输入的密码不一样'))
+      } else {
+        callback()
+      }
+    }
     return {
+      rules: {
+        pass: [
+          {required: true, trigger: 'blur', validator: validatepass}
+        ],
+        checkpass: [
+          {required: true, trigger: 'blur', validator: validateCheckPass}
+        ]
+      },
       accounts: [],
       firends: [],
       userInfo: {},
+      reset: {
+        pass: '',
+        checkpass: ''
+      },
+      loading: false,
       currentPage: 1, // 默认第一页
       display: 10, // 一页显示多少条
       pageCount: 100,
       addFriend: '', // 需要增加的好友
       selectedFriend: '', // 选中的好友
       dialogFriend: false, // 控制显示我的好友弹框
+      dialogPwd: false, // 控制修改密码框
       account: {
         input: '搜索的内容',
         plholder: '请输入用户名、昵称',
@@ -82,6 +131,31 @@ export default {
     }
   },
   methods: {
+    // 关闭密码框
+    ClosePwd () {
+      this.dialogPwd = false
+    },
+    // 重设密码
+    resetPwd (row) {
+      this.selectedFriend = row.userInfo
+      this.dialogPwd = true
+      this.loading = false
+    },
+    // 删除好友
+    deleteFrind (row) {
+      deleteAccount(row.userInfo.userInfoId).then(res => {
+        res = res.data
+        if (res.state === SUCCES) {
+          this.message('删除好友成功')
+          this.fetchAccount()
+        } else {
+          this.message.error(res.message)
+        }
+      })
+      .catch(() => {
+        this.message.error('连接数据库失败')
+      })
+    },
     // 获取用户列表
     fetchAccount () {
       accountList(this.currentPage, this.display).then((response) => {
@@ -205,6 +279,41 @@ export default {
       })
       .catch(() => {
         this.$message.error('连接数据库失败')
+      })
+    },
+    // 修改密码
+    modifrPwd () {
+      console.log(this.selectedFriend.userAccount)
+      this.$refs.reset.validate((valid) => {
+        // 验证成功
+        if (valid) {
+          this.loading = true
+          let formData = {
+            pwd: this.reset.pass,
+            userAccount: this.selectedFriend.userAccount
+          }
+          // 执行修改函数
+          this.dialogPwd = false
+          modifyPass(formData).then(res => {
+            res = res.data
+            if (res.state === SUCCES) {
+              this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              })
+              this.dialogPwd = false
+              this.loading = false
+            } else {
+              this.message.error(res.message)
+              this.loading = false
+            }
+          }).catch(() => {
+            this.loading = false
+            this.$message.error('连接数据库失败')
+          })
+        } else {
+          return false
+        }
       })
     }
   },

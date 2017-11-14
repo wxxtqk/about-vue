@@ -33,8 +33,8 @@ export function fetchSystem () {
 export function addAccount (data) {
   data = qs.stringify(data)
   return fetch({
-    // url: 'http://192.168.199.206:8089/ods-backstage-web/user/add',
-    url: 'http://192.168.199.109:8083/user/add',
+    url: 'http://192.168.199.206:8089/ods-backstage-web/user/add',
+    // url: 'http://192.168.199.109:8083/user/add',
     method: 'post',
     data
   })
@@ -83,5 +83,27 @@ export function modifyInfo (info) {
     url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/fetch/userinfo',
     method: 'post',
     data: info
+  })
+}
+// 修改用户密码
+export function modifyPass (info) {
+  info = qs.stringify(info)
+  return fetch({
+    url: 'http://192.168.199.206:8089/ods-backstage-web/user/updata/pwd',
+    method: 'post',
+    data: info
+  })
+}
+// 删除好友
+export function deleteAccount (userInfoId) {
+  let data = {
+    userInfoId
+  }
+  data = qs.stringify(data)
+  return fetch({
+    // url: 'http://192.168.199.206:8089/ods-backstage-web/user/delete',
+    url: 'http://192.168.199.110:8083/user/delete',
+    method: 'post',
+    data
   })
 }
