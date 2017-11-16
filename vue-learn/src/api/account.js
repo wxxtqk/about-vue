@@ -8,7 +8,7 @@ export function accountList (page, rows) {
   }
   data = qs.stringify(data)
   return fetch({
-    url: 'http://192.168.199.206:8089/ods-backstage-web/user/list',
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/getAccount',
     method: 'post',
     data
   })
@@ -24,7 +24,7 @@ export function uploadFile (data) {
 // 获取增加用户需要的select选项
 export function fetchSystem () {
   return fetch({
-    url: 'http://192.168.199.206:8089/ods_manager_web/systemParameter/listUserInit',
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/sysytem',
     method: 'post'
   })
 }

@@ -9,7 +9,8 @@ export function login (username, password) {
   }
   data = qs.stringify(data)
   return fetchNoToken({
-    url: 'http://192.168.199.206:8089/ods-sso-web/user/login',
+    // url: 'http://192.168.199.206:8089/ods-sso-web/user/login',
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/login',
     method: 'post',
     data
   })
@@ -21,7 +22,8 @@ export function userInfo (token) {
   }
   data = qs.stringify(data)
   return fetchNoToken({
-    url: 'http://192.168.199.206:8089/ods-sso-web/user/token',
+    // url: 'http://192.168.199.206:8089/ods-sso-web/user/token',
+    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/get/userIf',
     method: 'post',
     data
   })
