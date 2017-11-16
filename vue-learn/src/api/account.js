@@ -9,7 +9,6 @@ export function accountList (page, rows) {
   data = qs.stringify(data)
   return fetch({
     url: 'http://192.168.199.206:8089/ods-backstage-web/user/list',
-    // url: 'http://192.168.199.109:8083/user/list',
     method: 'post',
     data
   })
@@ -34,7 +33,6 @@ export function addAccount (data) {
   data = qs.stringify(data)
   return fetch({
     url: 'http://192.168.199.206:8089/ods-backstage-web/user/add',
-    // url: 'http://192.168.199.109:8083/user/add',
     method: 'post',
     data
   })
@@ -44,7 +42,6 @@ export function fetchFriends (data) {
   data = qs.stringify(data)
   return fetch({
     url: 'http://192.168.199.206:8089/ods-backstage-web/frend/select/all',
-    // url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/getfriends',
     method: 'post',
     data
   })
@@ -62,7 +59,7 @@ export function appendFriend (info) {
 export function deleteFriend (info) {
   info = qs.stringify(info)
   return fetch({
-    url: 'http://192.168.199.206:8089/ods-backstage-web/frend/delet',
+    url: 'http://192.168.199.206:8089/ods-backstage-web/frend/delelt',
     method: 'post',
     data: info
   })
@@ -71,7 +68,7 @@ export function deleteFriend (info) {
 export function fetchUserinfo (info) {
   info = qs.stringify(info)
   return fetch({
-    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/fetch/userinfo',
+    url: 'http://192.168.199.206:8089/ods-backstage-web/user/getUser',
     method: 'post',
     data: info
   })
@@ -80,7 +77,7 @@ export function fetchUserinfo (info) {
 export function modifyInfo (info) {
   info = qs.stringify(info)
   return fetch({
-    url: 'https://easy-mock.com/mock/59f7d52e27a30f73db85fb88/test/fetch/userinfo',
+    url: 'http://192.168.199.206:8089/ods-backstage-web/user/modify',
     method: 'post',
     data: info
   })
@@ -94,15 +91,15 @@ export function modifyPass (info) {
     data: info
   })
 }
-// 删除好友
+// 删除用户
 export function deleteAccount (userInfoId) {
   let data = {
     userInfoId
   }
   data = qs.stringify(data)
   return fetch({
-    // url: 'http://192.168.199.206:8089/ods-backstage-web/user/delete',
-    url: 'http://192.168.199.110:8083/user/delete',
+    url: 'http://192.168.199.206:8089/ods-backstage-web/user/delete',
+    // url: 'http://192.168.199.110:8083/user/delete',
     method: 'post',
     data
   })

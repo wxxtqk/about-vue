@@ -9,7 +9,11 @@
         <el-table-column property="userAccount" label="用户名" width="120" align="center"> </el-table-column>
         <el-table-column property="userInfo.userInfoName" label="昵称" width="120" align="center"> </el-table-column>
         <el-table-column property="userInfo.imGroupName" label="分组" width="120" align="center"> </el-table-column>
-        <el-table-column property="createTime|filterDate" label="创建时间"> </el-table-column>
+        <el-table-column label="创建时间">
+          <template scope="scope">
+              {{scope.row.createTime|filterDate}}
+          </template>  
+        </el-table-column>
         <el-table-column label="操作" width="200">
           <template  slot-scope="scope">
             <el-dropdown split-button  trigger="click" size="medium">
@@ -146,14 +150,13 @@ export default {
       deleteAccount(row.userInfo.userInfoId).then(res => {
         res = res.data
         if (res.state === SUCCES) {
-          this.message('删除好友成功')
           this.fetchAccount()
+          this.$message('删除好友成功')
         } else {
-          this.message.error(res.message)
+          this.$message.error(res.message)
         }
-      })
-      .catch(() => {
-        this.message.error('连接数据库失败')
+      }).catch(() => {
+        this.$message.error('连接数据库失败')
       })
     },
     // 获取用户列表
@@ -222,6 +225,7 @@ export default {
     },
     // 查看用户的好友
     adf (data) {
+      this.firends = []
       fetchFriends(data).then((res) => {
         res = res.data
         if (res.state === SUCCES) {
@@ -255,11 +259,11 @@ export default {
           }
           this.adf(data)
         } else {
-          this.message.error('解除好友失败')
+          this.$message.error('解除好友失败')
         }
       })
       .catch(() => {
-        this.message.error('连接服务器失败')
+        this.$message.error('连接服务器失败')
       })
     },
     // 修改用户信息
@@ -267,7 +271,7 @@ export default {
       this.account.dialogVisible = true
       this.account.type = false
       let info = {
-        userinfoId: row.userInfo.userInfoId
+        userInfoId: row.userInfo.userInfoId
       }
       fetchUserinfo(info).then(res => {
         res = res.data
@@ -304,7 +308,7 @@ export default {
               this.dialogPwd = false
               this.loading = false
             } else {
-              this.message.error(res.message)
+              this.$message.error(res.message)
               this.loading = false
             }
           }).catch(() => {
